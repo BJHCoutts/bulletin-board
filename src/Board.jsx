@@ -9,7 +9,7 @@ class Board extends React.Component {
     this.state = {
       notes: []
     };
-    this.update.bind(this);
+    this.update = this.update.bind(this);
     this.add = this.add.bind(this);
     this.eachNote = this.eachNote.bind(this);
     this.remove = this.remove.bind(this);
@@ -34,7 +34,7 @@ class Board extends React.Component {
   }
 
   update(newText, i) {
-    console.log(i, newText);
+    console.log("updating item at index", i, newText);
     this.setState(prevState => ({
       notes: prevState.notes.map(
         note => (note.id !== i ? note : { ...note, note: newText })
@@ -67,7 +67,12 @@ class Board extends React.Component {
 
   eachNote(note, i) {
     return (
-      <Note key={i} index={i} onChange={this.update} onRemove={this.remove}>
+      <Note
+        key={note.id}
+        index={note.id}
+        onChange={this.update}
+        onRemove={this.remove}
+      >
         {note.note}
       </Note>
     );
