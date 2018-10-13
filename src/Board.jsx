@@ -9,12 +9,28 @@ class Board extends React.Component {
     this.state = {
       notes: []
     };
-
-    this.update = this.update.bind(this);
+    this.update.bind(this);
     this.add = this.add.bind(this);
     this.eachNote = this.eachNote.bind(this);
     this.remove = this.remove.bind(this);
     this.nextId = this.nextId.bind(this);
+  }
+
+  componentWillMount() {
+    const self = this;
+    if (this.props.count) {
+      fetch(
+        `https://baconipsum.com/api/?type=all-meat&sentences=${
+          this.props.count
+        }`
+      )
+        .then(res => res.json())
+        .then(json =>
+          json[0]
+            .split(". ")
+            .forEach(sentence => self.add(sentence.substring(0, 25)))
+        );
+    }
   }
 
   update(newText, i) {
